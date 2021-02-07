@@ -3,7 +3,7 @@ import cv2, os, argparse, datetime, errno, math, multiprocessing
 from concurrent.futures import ThreadPoolExecutor
 
 DEG_TO_RAD = math.pi / 180
-EXTS = [".jpg", ".jpeg", ".png", ".bmp" ] # Image extensions to look for.
+EXTS = [".jpg", ".jpeg", ".png", ".bmp", ".tif" ] # Image extensions to look for.
 MAX = 255 # Thresholded max value (white).
 
 parser = argparse.ArgumentParser(description="Scanned image cropper." +
@@ -13,7 +13,8 @@ parser = argparse.ArgumentParser(description="Scanned image cropper." +
 			"\nwrites all found and processed photos in the output directory." +
 			"\nCan process multiple photos in a single scan.",
 			formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument('--dir', '-d', type=str, default="./",
+
+parser.add_argument('--dir', '-d', type=str, default="./input/",
 					help="Specify the location of the pictures to process.")
 					
 parser.add_argument('--odir', '-o', type=str, default="./output/",
@@ -53,7 +54,7 @@ IMDIR = args.dir
 OUTDIR = args.odir
 SHOULD_APPEND_DATETIME = args.useDatetime
 
-if THREADS is 0 :
+if THREADS == 0 :
 	THREADS = multiprocessing.cpu_count()
 
 ERRORS = 0 # Total number of errors encountered.
@@ -91,7 +92,7 @@ def writeImage(dir, fileName, img):
 	return True
 
 def writeScans(dir, fileName, scans):
-	if len(scans) is 0:
+	if len(scans) == 0:
 		print("Warning: No scans were found in this image: "+fileName)
 		global ERRORS
 		ERRORS += 1
@@ -106,7 +107,7 @@ def writeScans(dir, fileName, scans):
 		num += 1
 
 def getAveROISize(candidates):
-	if len(candidates) is 0:
+	if len(candidates) == 0:
 		return 0
 	av = 0
 	for roi in candidates:

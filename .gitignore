@@ -1,6 +1,7 @@
 # Testing locations
 pics/
 output/
+input/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -28,6 +29,10 @@ wheels/
 .installed.cfg
 *.egg
 MANIFEST
+
+# IDE 
+.idea
+.vscode
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
